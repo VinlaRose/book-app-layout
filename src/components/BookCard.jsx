@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { BookContext } from "../context/BookContext"
+import { Link } from "react-router-dom";
 
 export const BookCard = (item) => {
 
@@ -10,7 +11,7 @@ export const BookCard = (item) => {
         year,
         image,
         price,
-        read, disableReadBtn} = item
+        read, disableReadBtn, disableFavBtn, favourite} = item
 
     const {handleRead, handleFavourite} = useContext(BookContext);
 
@@ -28,8 +29,10 @@ export const BookCard = (item) => {
             <p>Title : {title}</p>
             <p>Author: {author}</p> 
             {disableReadBtn && <button onClick={() => handleRead(item)} disabled = {read ?  true : false} >{read ? "Already Read" : "Mark as Read"}</button> }
+
+            {disableFavBtn && <button onClick={() => handleFavourite(item)} >{favourite ? (<Link to="/favourites">Go to Favourites</Link>) : "Add to favourite"}</button>}
             
-            <button onClick={() => handleFavourite(id)} >Add to favourites</button>
+            
         </div>
     )
 }

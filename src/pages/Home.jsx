@@ -12,7 +12,7 @@ const {data} = useContext(BookContext);
 
             {data.bookData?.length ? 
                 data.bookData.map((books) => (
-                    <div key = {books.id}> <BookCard {...books} disableReadBtn={true}/> </div>
+                    <div key = {books.id}> <BookCard {...books} disableReadBtn={true} disableFavBtn={true}/> </div>
                 ))
             : (
                 <div></div>

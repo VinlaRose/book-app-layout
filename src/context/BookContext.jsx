@@ -112,7 +112,9 @@ export const BookProvider = ({children}) => {
                 if (response.status === 200) {
                   setData((prevState) => ({
                     ...prevState,
-                    bookData: response.data.books,
+                    bookData: response.data.books.map((item) => {
+                      return {...item, favourite: false}
+                    }),
                     user: response.data.user,
                   }));
                 }
@@ -124,11 +126,10 @@ export const BookProvider = ({children}) => {
           getData();
       },[])
 
-      const handleRead = (item) =>{
-        
-
-
       
+
+      const handleRead = (item) =>{
+    
         const updated = data.bookData.map((book) => {
           if(book.id === item.id){
             return {...book, read : true}
@@ -137,22 +138,38 @@ export const BookProvider = ({children}) => {
           }
         })
         
-        
         setData({
           ...data,
           bookData: updated
         });
       }
 
-      const handleFavourite = (id) =>{
-        console.log(id)
+      const filteredRead = data.bookData.filter((item) => item.read === true);
+      const readLength = filteredRead.length
+
+
+      const handleFavourite = (item) =>{
+        const updateArray = data.bookData.map((book) => {
+          if(book.id === item.id){
+            return{...book, favourite: true}
+          }else{
+            return book;
+          }
+        })
+        setData({
+          ...data,
+          bookData: updateArray
+        });
       }
+
+      const filteredFavourite = data.bookData.filter((item) => item.favourite === true);
+      const favouriteLength = filteredFavourite.length;
 
      
 
 
     return(
-        <BookContext.Provider value={{data, handleRead, handleFavourite}}>
+        <BookContext.Provider value={{data, filteredFavourite, filteredRead, readLength, favouriteLength, handleRead, handleFavourite}}>
            {children}
         </BookContext.Provider>
     )
